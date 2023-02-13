@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "include": ["src", "jest.config.js", "../../../temp/app.module.css.d.ts"],
+  "include": ["src", "jest.config.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
