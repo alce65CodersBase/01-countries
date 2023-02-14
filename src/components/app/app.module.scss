@@ -1,4 +1,9 @@
 .app-container {
   display: grid;
   place-items: center;
+
+  main {
+    width: 100%;
+    padding-block-end: 1rem;
+  }
 }

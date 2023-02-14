@@ -1,11 +1,19 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { CONTINENTS } from '../../config';
 
-import './search.params.scss';
 import {
+  searchParams,
+  formGroup,
+  results,
+  countriesList,
+} from './search.params.module.scss';
+import {
+  getBaseCountries,
   getContinents,
   getRegions,
 } from '../../service/repo/countries.api.repo';
+import { BaseCountry } from '../../models/country';
+import { BasicCard } from '../basic.card/basic.card';
 
 export const SearchParams = () => {
   // Controlled form for get language, continent & region
@@ -15,9 +23,11 @@ export const SearchParams = () => {
 
   const [continents, setContinents] = useState(CONTINENTS);
   const [regions, setRegions] = useState<string[]>([]);
+  const [countries, setCountries] = useState<BaseCountry[]>([]);
 
-  const handleSubmit = (ev: SyntheticEvent) => {
+  const handleSubmit = async (ev: SyntheticEvent) => {
     ev.preventDefault();
+    setCountries(await getBaseCountries(continent, region));
   };
 
   const loadContinents = async () => {
@@ -38,59 +48,73 @@ export const SearchParams = () => {
   }, [continent]);
 
   return (
-    <div className="search-params">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="">Language</label>
-          <input
-            name="language"
-            value={language}
-            onChange={(ev: SyntheticEvent) => {
-              setLanguage((ev.target as HTMLInputElement).value);
-            }}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="continent">Continente</label>
-          <select
-            id="continent"
-            name="continent"
-            value={continent}
-            onChange={(ev: SyntheticEvent) => {
-              setContinent((ev.target as HTMLInputElement).value);
-            }}
-          >
-            <option></option>
-            {continents.map((item) => (
-              <option key={item}>{item}</option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="region">Region</label>
-          <select
-            name="region"
-            value={region}
-            onChange={(ev: SyntheticEvent) => {
-              setRegion((ev.target as HTMLInputElement).value);
-            }}
-            disabled={!regions.length}
-          >
-            <option></option>
-            {regions.map((item) => (
-              <option key={item}>{item}</option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <button>Buscar</button>
-        </div>
-      </form>
+    <section className={searchParams}>
+      <header>
+        <form onSubmit={handleSubmit}>
+          <div className={formGroup}>
+            <label htmlFor="">Language</label>
+            <input
+              name="language"
+              value={language}
+              onChange={(ev: SyntheticEvent) => {
+                setLanguage((ev.target as HTMLInputElement).value);
+              }}
+            />
+          </div>
+          <div className={formGroup}>
+            <label htmlFor="continent">Continente</label>
+            <select
+              id="continent"
+              name="continent"
+              value={continent}
+              onChange={(ev: SyntheticEvent) => {
+                setContinent((ev.target as HTMLInputElement).value);
+              }}
+            >
+              <option></option>
+              {continents.map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </select>
+          </div>
+          <div className={formGroup}>
+            <label htmlFor="region">Region</label>
+            <select
+              name="region"
+              value={region}
+              onChange={(ev: SyntheticEvent) => {
+                setRegion((ev.target as HTMLInputElement).value);
+              }}
+              disabled={!regions.length}
+            >
+              <option></option>
+              {regions.map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </select>
+          </div>
+          <div className={formGroup}>
+            <button>Buscar</button>
+          </div>
+        </form>
 
-      <h2>Results</h2>
-      <p>
-        {continent} - {region} - {language}
-      </p>
-    </div>
+        <div className={results}>
+          <h2>Results</h2>
+          <ul>
+            <li>{continent}</li>
+            <li>{region}</li>
+            <li>{language}</li>
+          </ul>
+        </div>
+      </header>
+
+      <ul className={countriesList}>
+        {countries.map((item) => (
+          <li key={item.id}>
+            <BasicCard country={item}></BasicCard>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 };
