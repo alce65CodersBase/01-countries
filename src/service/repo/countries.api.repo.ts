@@ -1,4 +1,5 @@
-import { API_URL_ALL, API_URL_REGION } from '../../config';
+import { API_URL_ALL, API_URL_REGION, API_URL_SUB_REGION } from '../../config';
+import { BaseCountry, BasicResponseCountry } from '../../models/country';
 
 export const getContinents = async () => {
   const response = await fetch(API_URL_ALL + '?fields=region');
@@ -17,4 +18,18 @@ export const getRegions = async (region: string) => {
   return regions;
 };
 
-// TEMP export const getCountries()
+export const getBaseCountries = async (region: string, subregion: string) => {
+  const url =
+    API_URL_SUB_REGION + subregion + '?fields=name,capital,flags,cca2';
+  const response = await fetch(url);
+  const data: BasicResponseCountry[] = await response.json();
+  console.log(data);
+  const finalData: BaseCountry[] = data.map((item) => ({
+    id: item.cca2,
+    name: item.name.common,
+    capital: item.capital[0],
+    flag: item.flags.svg,
+  }));
+  console.log(finalData);
+  return finalData;
+};
