@@ -61,7 +61,7 @@ describe('Given getContinents function', () => {
 describe('Given getRegions function', () => {
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue([]),
+      json: jest.fn().mockResolvedValue([{ subregion: 'South-Europe' }]),
     });
   });
 
@@ -74,7 +74,7 @@ describe('Given getRegions function', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
     test('Then result should be []', () => {
-      expect(r).toEqual([]);
+      expect(r).toEqual(['South-Europe']);
     });
   });
 });
