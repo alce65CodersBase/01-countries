@@ -3,6 +3,8 @@ export type BaseCountry = {
   name: string;
   flag: string;
   capital: string;
+  continent: string;
+  region: string;
 };
 
 export type BasicResponseCountry = {
@@ -20,4 +22,6 @@ export type BasicResponseCountry = {
   };
   capital: string[];
   altSpellings: string[];
+  region: string;
+  subregion: string;
 };

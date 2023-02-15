@@ -4,6 +4,7 @@ import { App } from './app';
 import { SearchParams } from '../search.params/search.params';
 
 jest.mock('../search.params/search.params');
+jest.mock('../../service/repo/countries.api.repo');
 
 describe('Given "App" component', () => {
   describe('When it is render', () => {

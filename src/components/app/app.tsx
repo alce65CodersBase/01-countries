@@ -1,6 +1,8 @@
+import { getLanguages } from '../../service/repo/countries.api.repo';
 import { SearchParams } from '../search.params/search.params';
 import { appContainer } from './app.module.scss';
 export function App() {
+  getLanguages();
   return (
     <div className={appContainer}>
       <header>
