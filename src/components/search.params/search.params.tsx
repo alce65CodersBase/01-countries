@@ -1,11 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { CONTINENTS } from '../../config';
-import {
-  searchParams,
-  formGroup,
-  results,
-  countriesList,
-} from './search.params.module.scss';
+import { searchParams, formGroup, results } from './search.params.module.scss';
 import {
   getBaseCountriesByContinent,
   getBaseCountriesByLanguage,
@@ -14,7 +9,7 @@ import {
   getRegions,
 } from '../../service/repo/countries.api.repo';
 import { BaseCountry } from '../../models/country';
-import { BasicCard } from '../basic.card/basic.card';
+import { ListCountries } from '../list.countries/list.countries';
 
 export const SearchParams = () => {
   // Controlled form for get language, continent & region
@@ -130,13 +125,7 @@ export const SearchParams = () => {
         </div>
       </header>
 
-      <ul className={countriesList}>
-        {countries.map((item) => (
-          <li key={item.id}>
-            <BasicCard country={item}></BasicCard>
-          </li>
-        ))}
-      </ul>
+      <ListCountries countries={countries}></ListCountries>
     </section>
   );
 };
