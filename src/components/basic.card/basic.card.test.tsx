@@ -8,6 +8,8 @@ const mockCountry: BaseCountry = {
   name: 'Cuba',
   capital: 'Havana',
   flag: '',
+  continent: '',
+  region: '',
 };
 
 describe('Given BasicCard component rendered', () => {

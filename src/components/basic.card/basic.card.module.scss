@@ -13,4 +13,17 @@
   img {
     width: 2rem;
   }
+  img:hover {
+    scale: 4;
+    translate: -3rem;
+  }
+  p {
+    display: flex;
+    justify-content: space-between;
+
+    .country-id {
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+  }
 }
