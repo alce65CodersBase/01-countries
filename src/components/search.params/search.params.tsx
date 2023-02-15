@@ -1,6 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { CONTINENTS } from '../../config';
-
 import {
   searchParams,
   formGroup,
@@ -8,7 +7,9 @@ import {
   countriesList,
 } from './search.params.module.scss';
 import {
-  getBaseCountries,
+  getBaseCountriesByContinent,
+  getBaseCountriesByLanguage,
+  getBaseCountriesByRegion,
   getContinents,
   getRegions,
 } from '../../service/repo/countries.api.repo';
@@ -27,7 +28,28 @@ export const SearchParams = () => {
 
   const handleSubmit = async (ev: SyntheticEvent) => {
     ev.preventDefault();
-    setCountries(await getBaseCountries(continent, region));
+    let languageResult: BaseCountry[] = [];
+    if (language && language !== 'any') {
+      languageResult = await getBaseCountriesByLanguage(language);
+    }
+
+    if (continent && !region) {
+      if (languageResult.length) {
+        setCountries(
+          languageResult.filter((item) => item.continent === continent)
+        );
+      } else {
+        setCountries(await getBaseCountriesByContinent(continent));
+      }
+    } else if (region) {
+      if (languageResult.length) {
+        setCountries(languageResult.filter((item) => item.region === region));
+      } else {
+        setCountries(await getBaseCountriesByRegion(region));
+      }
+    } else {
+      setCountries(languageResult);
+    }
   };
 
   const loadContinents = async () => {
