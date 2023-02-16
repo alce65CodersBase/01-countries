@@ -1,0 +1,10 @@
+.country-card {
+  h2 {
+    display: flex;
+    justify-content: space-between;
+  }
+  .country-id {
+    // text-transform: capitalize;
+    font-variant-caps: small-caps;
+  }
+}

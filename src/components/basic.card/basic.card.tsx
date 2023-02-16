@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { BaseCountry } from '../../models/country';
 import { card, countryId } from './basic.card.module.scss';
 
@@ -9,7 +10,7 @@ export function BasicCard({ country }: BasicCardProps) {
   return (
     <article className={card}>
       <h2>
-        {country.name}
+        <Link to={'/details/' + country.id}>{country.name}</Link>
         <img src={country.flag} alt={country.name + ' flag'} />
       </h2>
       <p>

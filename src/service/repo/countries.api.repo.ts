@@ -1,10 +1,15 @@
 import {
   API_URL_ALL,
+  API_URL_COUNTRY,
   API_URL_LANG,
   API_URL_REGION,
   API_URL_SUB_REGION,
 } from '../../config';
-import { BaseCountry, BasicResponseCountry } from '../../models/country';
+import {
+  BaseCountry,
+  BasicResponseCountry,
+  FullCountry,
+} from '../../models/country';
 
 export const getLanguages = async () => {
   type Response = {
@@ -82,4 +87,11 @@ const mapBaseCountries = (data: BasicResponseCountry[]) => {
   }));
   console.log(finalData);
   return finalData;
+};
+
+export const getCountryById = async (id: string): Promise<FullCountry> => {
+  const response = await fetch(API_URL_COUNTRY + id);
+  const data: FullCountry[] = await response.json();
+  console.log('DATA', data[0]);
+  return data[0];
 };
