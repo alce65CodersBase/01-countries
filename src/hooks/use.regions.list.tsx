@@ -13,7 +13,6 @@ export const useRegionLists = (continent: string) => {
     setRegions([]);
     setStatus('loading');
     const regions = await getRegions(continent);
-    console.log('FETCH', regions);
     localCache[continent] = regions;
     setRegions(localCache[continent]);
     setStatus('loaded');
@@ -23,7 +22,6 @@ export const useRegionLists = (continent: string) => {
     if (!continent) {
       setRegions([]);
     } else if (localCache[continent]) {
-      console.log('LOAD CACHE', localCache[continent]);
       setRegions(localCache[continent]);
     } else {
       loadRegions(continent);
