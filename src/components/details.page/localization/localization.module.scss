@@ -1,0 +1,8 @@
+.localization {
+  display: initial;
+
+  .borders-grid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+  }
+}

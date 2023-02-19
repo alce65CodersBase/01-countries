@@ -27,53 +27,63 @@ export type BasicResponseCountry = {
 };
 
 export type FullCountry = {
-  name: Name;
-  tld: string[];
+  name: CountryName;
+  altSpellings: string[];
   cca2: string;
   ccn3: string;
   cca3: string;
   cioc: string;
-  independent: boolean;
-  status: string;
-  unMember: boolean;
-  currencies: Currencies;
+  fifa: string;
+  tld: string[];
   idd: Idd;
   capital: string[];
-  altSpellings: string[];
+  capitalInfo: CapitalInfo;
   region: string;
+  continents: string[];
   subregion: string;
+  borders: string[];
+  latlng: number[];
+  flag: string;
+  flags: Flags;
+  coatOfArms: CoatOfArms;
+  maps: Maps;
+  currencies: CountryCurrencies;
   languages: { [key: string]: string };
+  area: number;
+  population: number;
+  timezones: string[];
+  demonyms: Demonyms;
+  status: string;
+  independent: boolean;
+  unMember: boolean;
+  landlocked: boolean;
+  startOfWeek: string;
+  car: Car;
   translations: {
     [key: string]: {
       official: string;
       common: string;
     };
   };
-  latlng: number[];
-  landlocked: boolean;
-  borders: string[];
-  area: number;
-  demonyms: Demonyms;
-  flag: string;
-  maps: Maps;
-  population: number;
   gini: Gini;
-  fifa: string;
-  car: Car;
-  timezones: string[];
-  continents: string[];
-  flags: Flags;
-  coatOfArms: CoatOfArms;
-  startOfWeek: string;
-  capitalInfo: CapitalInfo;
   postalCode: PostalCode;
 };
 
-interface PostalCode {
-  format: string;
-  regex: string;
+export interface CountryName {
+  common: string;
+  official: string;
+  nativeName: {
+    [key: string]: {
+      official: string;
+      common: string;
+    };
+  };
 }
 
+interface Idd {
+  root: string;
+  suffixes: string[];
+}
 interface CapitalInfo {
   latlng: number[];
 }
@@ -89,46 +99,31 @@ export interface Flags {
   alt: string;
 }
 
-interface Car {
-  signs: string[];
-  side: string;
-}
-
-interface Gini {
-  [key: string]: number;
-}
-
 interface Maps {
   googleMaps: string;
   openStreetMaps: string;
 }
-
-interface Demonyms {
-  [key: string]: {
-    f: string;
-    m: string;
-  };
-}
-
-interface Idd {
-  root: string;
-  suffixes: string[];
-}
-
-interface Currencies {
+export interface CountryCurrencies {
   [key: string]: {
     name: string;
     symbol: string;
   };
 }
-
-interface Name {
-  common: string;
-  official: string;
-  nativeName: {
-    [key: string]: {
-      official: string;
-      common: string;
-    };
+export interface Demonyms {
+  [key: string]: {
+    f: string;
+    m: string;
   };
+}
+export interface Car {
+  signs: string[];
+  side: string;
+}
+
+export interface Gini {
+  [key: string]: number;
+}
+export interface PostalCode {
+  format: string;
+  regex: string;
 }
