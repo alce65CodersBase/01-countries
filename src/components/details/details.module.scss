@@ -3,6 +3,48 @@
     display: flex;
     justify-content: space-between;
   }
+  article {
+    display: grid;
+    // grid-auto-rows: 8rem;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 1rem;
+
+    section {
+      border: 1px gray solid;
+      padding: 1rem;
+      border-radius: 5px;
+
+      p {
+        margin-block: 0.3rem;
+      }
+      ul {
+        margin-block: 0.3rem;
+        margin-inline: 0;
+      }
+
+      .borders-grid {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+      }
+
+      li {
+        padding: 0;
+      }
+
+      dt {
+        float: left;
+      }
+      dd {
+        padding-inline-start: 4rem;
+      }
+    }
+
+    .map {
+      grid-column: span 2;
+      min-height: 350px;
+    }
+  }
+
   .country-id {
     // text-transform: capitalize;
     font-variant-caps: small-caps;
