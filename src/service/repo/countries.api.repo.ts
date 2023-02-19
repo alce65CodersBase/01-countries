@@ -11,17 +11,34 @@ import {
   FullCountry,
 } from '../../models/country';
 
+export const languagesCollection: { [key: string]: string } = {};
+
 export const getLanguages = async () => {
   type Response = {
     altSpellings: string[];
     languages: { [key: string]: string };
   };
+
+  if (Object.keys(languagesCollection).length) {
+    console.log('Cache: ', languagesCollection);
+    return Object.values(languagesCollection).sort();
+  }
+
   const response = await fetch(API_URL_ALL + '?fields=languages');
   const data: Response[] = await response.json();
-  console.log('DATA', data);
-  const languages = data.map((item) => Object.values(item.languages)).flat();
-  const sortLanguages = [...new Set(languages)].sort();
-  console.log(sortLanguages);
+  const languagesArrays = data.map((item) =>
+    Object.entries(item.languages).flat()
+  );
+  languagesArrays.forEach((item) => {
+    item.forEach((_item, i) => {
+      if (i % 2 !== 0) return;
+      if (item[i] === undefined) return;
+      languagesCollection[item[i]] = item[i + 1];
+    });
+  });
+  console.log('Created: ', languagesCollection);
+  const sortLanguages = Object.values(languagesCollection).sort();
+  console.log('Sort Languages: ', sortLanguages);
   return sortLanguages;
 };
 
