@@ -1,3 +1,4 @@
+import { MemoryRouter as Router } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BasicCard } from './basic.card';
@@ -13,7 +14,11 @@ const mockCountry: BaseCountry = {
 };
 
 describe('Given BasicCard component rendered', () => {
-  render(<BasicCard country={mockCountry}></BasicCard>);
+  render(
+    <Router>
+      <BasicCard country={mockCountry}></BasicCard>
+    </Router>
+  );
   describe('When is receive a country by props', () => {
     test('Then it should display country info', () => {
       const elements = [
