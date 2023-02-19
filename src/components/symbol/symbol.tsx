@@ -20,7 +20,7 @@ export function Symbol({ source, classCSS = 'small' }: SymbolProps) {
       <img
         className={cssClasses[classCSS]}
         src={source.svg ? source.svg : source.png}
-        alt={source.alt || 'Arms'}
+        alt={source.alt || 'Coat of Arms'}
       />
     </figure>
   );

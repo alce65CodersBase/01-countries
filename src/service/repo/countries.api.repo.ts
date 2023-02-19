@@ -32,7 +32,7 @@ export const getLanguages = async () => {
   languagesArrays.forEach((item) => {
     item.forEach((_item, i) => {
       if (i % 2 !== 0) return;
-      if (item[i] === undefined) return;
+      if (item[i + 1] === undefined) return;
       languagesCollection[item[i]] = item[i + 1];
     });
   });
