@@ -1,4 +1,4 @@
-import { Flags } from '../../models/country';
+import { Flags } from '../../../models/country';
 import { flag, small, middle, large } from './symbol.module.scss';
 
 type SymbolProps = {

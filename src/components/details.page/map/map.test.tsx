@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Map } from './map';
-import { createURLGoogle, createURLOpen } from '../../service/maps/maps';
+import { createURLGoogle, createURLOpen } from '../../../service/maps/maps';
 
-jest.mock('../../service/maps/maps');
+jest.mock('../../../service/maps/maps');
 
 const renderElement = (source: string) => {
   const url = '';

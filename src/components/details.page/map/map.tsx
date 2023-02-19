@@ -1,4 +1,4 @@
-import { createURLGoogle, createURLOpen } from '../../service/maps/maps';
+import { createURLGoogle, createURLOpen } from '../../../service/maps/maps';
 import { mapContainer } from './map.module.scss';
 
 /*  Formato en el ejemplo

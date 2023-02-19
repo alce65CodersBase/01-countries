@@ -1,10 +1,10 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { FullCountry } from '../../models/country';
+import { FullCountry } from '../../../models/country';
 import {
   languagesCollection,
   queryCountry,
-} from '../../service/repo/countries.api.repo';
+} from '../../../service/repo/countries.api.repo';
 import { Symbol } from '../symbol/symbol';
 import { Map } from '../map/map';
 import {
