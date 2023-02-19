@@ -6,6 +6,8 @@ import {
   getBaseCountriesByLanguage,
   getContinents,
   getRegions,
+  getCountryById,
+  queryCountry,
 } from './countries.api.repo';
 
 describe('Given getLanguages function', () => {
@@ -15,6 +17,7 @@ describe('Given getLanguages function', () => {
         {
           languages: {
             any: 'any language',
+            other: undefined,
           },
         },
       ]),
@@ -160,6 +163,62 @@ describe('Given getBaseCountriesBy... functions', () => {
     });
     test('Then result should be []', () => {
       expect(r).toEqual(mockFinalCountries);
+    });
+  });
+});
+
+describe('Given getCountryById', () => {
+  const mockCountry = {
+    cca2: 'AA',
+    name: { common: '' },
+    capital: [''],
+    flags: { svg: '' },
+  } as unknown as BaseCountry;
+  beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue([mockCountry]),
+    });
+  });
+  describe('When it is callled with an id', () => {
+    const mockID = 'AA';
+    test('Then it should return the country', async () => {
+      const r = await getCountryById(mockID);
+      expect(r).toEqual(mockCountry);
+    });
+  });
+});
+
+describe('Given queryCountry', () => {
+  const mockCountry = {
+    cca2: '',
+    name: { common: '' },
+    capital: [''],
+    flags: { svg: '' },
+  } as unknown as BaseCountry;
+  const mockQueryId = {
+    queryKey: ['query name', 'AA'],
+  };
+  describe('When it is called a valid query id', () => {
+    beforeEach(() => {
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue(mockCountry),
+        ok: true,
+      });
+    });
+    test('Then it should return the country', async () => {
+      const r = await queryCountry(mockQueryId);
+      expect(r).toEqual(mockCountry);
+    });
+  });
+  describe('When it is called a NOT valid query id', () => {
+    beforeEach(() => {
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue(mockCountry),
+        ok: false,
+      });
+    });
+    test('Then it should return the country', async () => {
+      expect(() => queryCountry(mockQueryId)).rejects.toThrow();
     });
   });
 });
