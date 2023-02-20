@@ -107,7 +107,11 @@ export const getCountryById = async (id: string): Promise<FullCountry> => {
   return data[0];
 };
 
-export const queryCountry = async ({ queryKey }: { queryKey: string[] }) => {
+export const queryCountry = async ({
+  queryKey,
+}: {
+  queryKey: string[];
+}): Promise<FullCountry[]> => {
   const id = queryKey[1];
   const response = await fetch(API_URL_COUNTRY + id);
   if (!response.ok) {

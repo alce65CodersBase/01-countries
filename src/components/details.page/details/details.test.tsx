@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Details } from './details';
 import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
@@ -9,14 +9,13 @@ import { Map } from '../map/map';
 import { Naming } from '../naming/naming';
 import { Codes } from '../codes/codes';
 import { Capital } from '../capital/capital';
-import { Coordinates } from '../coordinates/coordinates';
 import { Localization } from '../localization/localization';
 import { Currencies } from '../currencies/currencies';
 import { Languages } from '../languages/languages';
 import { GeoStats } from '../geo.stats/geo.stats';
 import { PoliticStats } from '../politic.stats/politic.stats';
 import { Translations } from '../translations/translations';
-import { Others } from '../_base/others';
+import { Others } from '../others/others';
 import { FullCountry } from '../../../models/country';
 
 jest.mock('../symbol/symbol');
@@ -24,16 +23,38 @@ jest.mock('../map/map');
 jest.mock('../naming/naming');
 jest.mock('../codes/codes');
 jest.mock('../capital/capital');
-jest.mock('../coordinates/coordinates');
 jest.mock('../localization/localization');
 jest.mock('../currencies/currencies');
 jest.mock('../languages/languages');
 jest.mock('../geo.stats/geo.stats');
 jest.mock('../politic.stats/politic.stats');
 jest.mock('../translations/translations');
-jest.mock('../_base/others');
+jest.mock('../others/others');
 
 jest.mock('../../../service/repo/countries.api.repo');
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    },
+  },
+});
+
+const validRender = async () => {
+  await act(async () => {
+    render(
+      <Router initialEntries={['/details/cu']} initialIndex={0}>
+        <QueryClientProvider client={queryClient}>
+          <Routes>
+            <Route path="/details/:id" element={<Details></Details>}></Route>
+          </Routes>
+        </QueryClientProvider>
+      </Router>
+    );
+  });
+};
 
 describe('Given Details component rendered ', () => {
   describe('When it is rendered without a param id', () => {
@@ -50,44 +71,49 @@ describe('Given Details component rendered ', () => {
     });
   });
 
-  describe('When it is rendered with a param id', () => {
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          staleTime: Infinity,
-          cacheTime: Infinity,
-        },
-      },
+  describe(`When it is rendered with a valid param id
+              and the query return is undefined`, () => {
+    beforeEach(async () => {
+      (queryCountry as jest.Mock).mockResolvedValue(undefined);
+      await validRender();
     });
-    beforeEach(() => {
-      (queryCountry as jest.Mock).mockResolvedValue({} as FullCountry);
+    test('It should no render anything', async () => {
+      const message = await screen.findByText('No country found');
+      expect(message).toBeInTheDocument();
+    });
+  });
 
-      render(
-        <Router initialEntries={['/details/cu']} initialIndex={0}>
-          <QueryClientProvider client={queryClient}>
-            <Routes>
-              <Route path="/details/:id" element={<Details></Details>}></Route>
-            </Routes>
-          </QueryClientProvider>
-        </Router>
-      );
+  describe('When it is rendered with a valid param id', () => {
+    beforeEach(async () => {
+      (queryCountry as jest.Mock).mockResolvedValue([
+        {
+          name: {
+            common: 'Any name',
+          },
+          capitalInfo: {},
+          maps: {},
+        },
+      ] as unknown as FullCountry[]);
+      await validRender();
     });
-    test('Then it should render the component header', () => {
+    test(`Then it should render the article
+            and call all the included components`, async () => {
       const element = screen.getByRole('heading');
       expect(element).toBeInTheDocument();
-      expect(Symbol).not.toHaveBeenCalled();
-      expect(Map).not.toHaveBeenCalled();
-      expect(Naming).not.toHaveBeenCalled();
-      expect(Codes).not.toHaveBeenCalled();
-      expect(Capital).not.toHaveBeenCalled();
-      expect(Coordinates).not.toHaveBeenCalled();
-      expect(Localization).not.toHaveBeenCalled();
-      expect(Currencies).not.toHaveBeenCalled();
-      expect(Languages).not.toHaveBeenCalled();
-      expect(GeoStats).not.toHaveBeenCalled();
-      expect(PoliticStats).not.toHaveBeenCalled();
-      expect(Translations).not.toHaveBeenCalled();
-      expect(Others).not.toHaveBeenCalled();
+      const article = await screen.findByRole('article');
+      expect(article).toBeInTheDocument();
+      expect(Naming).toHaveBeenCalled();
+      expect(Symbol).toHaveBeenCalled();
+      expect(Map).toHaveBeenCalled();
+      expect(Codes).toHaveBeenCalled();
+      expect(Capital).toHaveBeenCalled();
+      expect(Localization).toHaveBeenCalled();
+      expect(Currencies).toHaveBeenCalled();
+      expect(Languages).toHaveBeenCalled();
+      expect(GeoStats).toHaveBeenCalled();
+      expect(PoliticStats).toHaveBeenCalled();
+      expect(Translations).toHaveBeenCalled();
+      expect(Others).toHaveBeenCalled();
     });
   });
 });
