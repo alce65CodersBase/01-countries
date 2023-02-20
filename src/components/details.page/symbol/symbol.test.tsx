@@ -3,13 +3,13 @@ import '@testing-library/jest-dom';
 import { Symbol } from './symbol';
 
 describe('Given Symbol component rendered', () => {
+  const mockAltText = 'Alt text';
+  const source = {
+    svg: 'http',
+    png: 'http',
+    alt: mockAltText,
+  };
   describe('When it receive a source with svg url and alt text', () => {
-    const mockAltText = 'Alt text';
-    const source = {
-      svg: 'http',
-      png: 'http',
-      alt: mockAltText,
-    };
     beforeEach(() => {
       render(<Symbol source={source}></Symbol>);
     });
@@ -21,13 +21,8 @@ describe('Given Symbol component rendered', () => {
   });
 
   describe('When it receive a source png url and alt text', () => {
-    const mockAltText = 'Alt text';
-    const source = {
-      svg: '',
-      png: 'http',
-      alt: mockAltText,
-    };
     beforeEach(() => {
+      source.svg = '';
       render(<Symbol source={source}></Symbol>);
     });
 
@@ -38,7 +33,7 @@ describe('Given Symbol component rendered', () => {
   });
 
   describe('When it receive as source with only svg url ', () => {
-    const mockAltText = 'Coat of Arms';
+    const mockAltDefaultText = 'Coat of Arms';
     const source = {
       svg: 'http',
     };
@@ -47,18 +42,14 @@ describe('Given Symbol component rendered', () => {
     });
 
     test('Then it should render the image', () => {
-      const element = screen.getByAltText(mockAltText);
+      const element = screen.getByAltText(mockAltDefaultText);
       expect(element).toBeInTheDocument();
     });
   });
   describe('When it receive a source without urls', () => {
-    const mockAltText = 'Alt text';
-    const source = {
-      svg: '',
-      png: '',
-      alt: mockAltText,
-    };
     beforeEach(() => {
+      source.svg = '';
+      source.png = '';
       render(<Symbol source={source}></Symbol>);
     });
 
