@@ -9,11 +9,12 @@ export function Capital({
     <section className={capitalSection}>
       <h3>Capital</h3>
       <ul>
-        {capital.map((item) => (
-          <li key={item}>
-            <strong>{item}</strong>
-          </li>
-        ))}
+        {Array.isArray(capital) &&
+          capital.map((item) => (
+            <li key={item}>
+              <strong>{item}</strong>
+            </li>
+          ))}
       </ul>
       <br />
       <p>Capital coordinates</p>

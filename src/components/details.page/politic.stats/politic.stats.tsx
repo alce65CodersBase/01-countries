@@ -19,9 +19,8 @@ export function PoliticStats({
       <p>startOfWeek {startOfWeek}</p>
       <p>Car signs</p>
       <ul>
-        {car.signs.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
+        {Array.isArray(car.signs) &&
+          car.signs.map((item) => <li key={item}>{item}</li>)}
       </ul>
       <p>Car side: {car.side}</p>
     </section>

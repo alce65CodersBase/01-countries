@@ -14,21 +14,21 @@ export function Codes({ cca2, cca3, ccn3, cioc, fifa, tld, idd }: FullCountry) {
         <li>
           Top-level domains:
           <ul>
-            {tld.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
+            {Array.isArray(tld) &&
+              tld.map((item) => <li key={item}>{item}</li>)}
           </ul>
         </li>
-        <li>
-          IDD : {idd.root}
-          <span> | suffixes: </span>
-          <span>
-            {idd.suffixes.map((item) => (
-              <span key={item}>{item}, </span>
-            ))}
-          </span>
-          <small>(international direct dialing)</small>
-        </li>
+        {idd && (
+          <li>
+            IDD : {idd.root}
+            <span> | suffixes: </span>
+            <span>
+              {Array.isArray(idd.suffixes) &&
+                idd.suffixes.map((item) => <span key={item}>{item}, </span>)}
+            </span>
+            <small>(international direct dialing)</small>
+          </li>
+        )}
       </ul>
     </section>
   );

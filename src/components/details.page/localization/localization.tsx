@@ -18,7 +18,8 @@ export function Localization({
       </p>
       <p>Borders</p>
       <ul className={bordersGrid}>
-        {borders && borders.map((item) => <li key={item}>{item}</li>)}
+        {Array.isArray(borders) &&
+          borders.map((item) => <li key={item}>{item}</li>)}
       </ul>
       <p>Coordinates</p>
       {children}

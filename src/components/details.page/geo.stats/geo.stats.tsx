@@ -15,19 +15,19 @@ export function GeoStats({
       <p>Population: {population.toLocaleString()}</p>
       <p>Time Zones</p>
       <ul>
-        {timezones.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
+        {Array.isArray(timezones) &&
+          timezones.map((item) => <li key={item}>{item}</li>)}
       </ul>
-      {Object.entries(demonyms).map((item) => (
-        <div key={item[0]}>
-          <p className="Key">Demonyms in {languagesCollection[item[0]]}:</p>
-          <ul>
-            <li>male: {item[1].m}</li>
-            <li>female:{item[1].f}</li>
-          </ul>
-        </div>
-      ))}
+      {demonyms &&
+        Object.entries(demonyms).map((item) => (
+          <div key={item[0]}>
+            <p className="Key">Demonyms in {languagesCollection[item[0]]}:</p>
+            <ul>
+              <li>male: {item[1].m}</li>
+              <li>female:{item[1].f}</li>
+            </ul>
+          </div>
+        ))}
     </section>
   );
 }

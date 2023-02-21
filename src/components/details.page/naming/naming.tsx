@@ -20,15 +20,16 @@ export function Naming({ name, altSpellings }: FullCountry) {
         Official: <strong>{name.official}</strong>
       </p>
       <div>
-        {Object.entries(name.nativeName).map((item) => (
-          <div key={item[0]}>
-            <p>Native name in {languagesCollection[item[0]]}: </p>
-            <ul>
-              <li>Common: {item[1].common}</li>
-              <li>Official:{item[1].official}</li>
-            </ul>
-          </div>
-        ))}
+        {name.nativeName &&
+          Object.entries(name.nativeName).map((item) => (
+            <div key={item[0]}>
+              <p>Native name in {languagesCollection[item[0]]}: </p>
+              <ul>
+                <li>Common: {item[1].common}</li>
+                <li>Official:{item[1].official}</li>
+              </ul>
+            </div>
+          ))}
       </div>
     </section>
   );
