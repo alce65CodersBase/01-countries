@@ -4,7 +4,7 @@ import { searchCountries } from '../../service/repo/countries.api.repo';
 import { BaseCountry } from '../../models/country';
 import { ListCountries } from '../list.countries/list.countries';
 import { useRegionLists } from '../../hooks/use.regions.list';
-import { useContinents } from '../../hooks/use.continents.list';
+import { useContinentsList } from '../../hooks/use.continents.list';
 
 export const SearchParams = () => {
   // Controlled form for get language, continent & region
@@ -12,7 +12,7 @@ export const SearchParams = () => {
   const [continent, setContinent] = useState('');
   const [region, setRegion] = useState('');
 
-  const { continents } = useContinents();
+  const { continents } = useContinentsList();
   const { regions, status } = useRegionLists(continent);
   const [countries, setCountries] = useState<BaseCountry[]>([]);
 

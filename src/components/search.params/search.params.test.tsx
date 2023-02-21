@@ -3,19 +3,23 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { SearchParams } from './search.params';
 import { ListCountries } from '../list.countries/list.countries';
-import {
-  getContinents,
-  getRegions,
-  getBaseCountriesByLanguage,
-} from '../../service/repo/countries.api.repo';
+import { searchCountries } from '../../service/repo/countries.api.repo';
+import { useContinentsList } from '../../hooks/use.continents.list';
+import { useRegionLists } from '../../hooks/use.regions.list';
 
 jest.mock('../../service/repo/countries.api.repo');
 jest.mock('../basic.card/basic.card');
 jest.mock('../list.countries/list.countries');
+jest.mock('../../hooks/use.continents.list');
+jest.mock('../../hooks/use.regions.list');
 
-(getContinents as jest.Mock).mockResolvedValue(['some continent']);
-(getRegions as jest.Mock).mockResolvedValue(['some region']);
-(getBaseCountriesByLanguage as jest.Mock).mockResolvedValue(['some language']);
+(useContinentsList as jest.Mock).mockReturnValue({
+  continents: ['some continent'],
+});
+(useRegionLists as jest.Mock).mockReturnValue({
+  regions: ['some region'],
+  status: 'loading',
+});
 
 describe('Given SearchParams component rendered', () => {
   let elements: HTMLFormElement[];
@@ -61,6 +65,7 @@ describe('Given SearchParams component rendered', () => {
       await act(async () => {
         fireEvent.click(elements[3]);
       });
+      expect(searchCountries).toHaveBeenCalled();
     });
 
     test('A language & continent & region could be search', async () => {
@@ -74,6 +79,7 @@ describe('Given SearchParams component rendered', () => {
       await act(async () => {
         fireEvent.click(elements[3]);
       });
+      expect(searchCountries).toHaveBeenCalled();
     });
 
     test('A continent could be select', async () => {
