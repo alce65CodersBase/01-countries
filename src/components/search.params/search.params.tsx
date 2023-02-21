@@ -1,15 +1,10 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
-import { CONTINENTS } from '../../config';
+import { SyntheticEvent, useState } from 'react';
 import { searchParams, formGroup, results } from './search.params.module.scss';
-import {
-  getBaseCountriesByContinent,
-  getBaseCountriesByLanguage,
-  getBaseCountriesByRegion,
-  getContinents,
-} from '../../service/repo/countries.api.repo';
+import { searchCountries } from '../../service/repo/countries.api.repo';
 import { BaseCountry } from '../../models/country';
 import { ListCountries } from '../list.countries/list.countries';
 import { useRegionLists } from '../../hooks/use.regions.list';
+import { useContinents } from '../../hooks/use.continents.list';
 
 export const SearchParams = () => {
   // Controlled form for get language, continent & region
@@ -17,52 +12,14 @@ export const SearchParams = () => {
   const [continent, setContinent] = useState('');
   const [region, setRegion] = useState('');
 
-  const [continents, setContinents] = useState(CONTINENTS);
+  const { continents } = useContinents();
   const { regions, status } = useRegionLists(continent);
   const [countries, setCountries] = useState<BaseCountry[]>([]);
-
-  const searchCountries = async (
-    language: string,
-    continent: string,
-    region: string
-  ) => {
-    let languageResult: BaseCountry[] = [];
-    if (language && language !== 'any') {
-      languageResult = await getBaseCountriesByLanguage(language);
-    }
-
-    if (continent && !region) {
-      if (languageResult.length) {
-        return languageResult.filter((item) => item.continent === continent);
-      }
-
-      return getBaseCountriesByContinent(continent);
-    }
-
-    if (region) {
-      if (languageResult.length) {
-        return languageResult.filter((item) => item.region === region);
-      }
-
-      return getBaseCountriesByRegion(region);
-    }
-
-    return languageResult;
-  };
 
   const handleSubmit = async (ev: SyntheticEvent) => {
     ev.preventDefault();
     setCountries(await searchCountries(language, continent, region));
   };
-
-  const loadContinents = async () => {
-    const continents = await getContinents();
-    setContinents(continents);
-  };
-
-  useEffect(() => {
-    loadContinents();
-  }, []);
 
   return (
     <section className={searchParams}>
