@@ -100,6 +100,35 @@ const mapBaseCountries = (data: BasicResponseCountry[]) => {
   return finalData;
 };
 
+export const searchCountries = async (
+  language: string,
+  continent: string,
+  region: string
+) => {
+  let languageResult: BaseCountry[] = [];
+  if (language && language !== 'any') {
+    languageResult = await getBaseCountriesByLanguage(language);
+  }
+
+  if (continent && !region) {
+    if (languageResult.length) {
+      return languageResult.filter((item) => item.continent === continent);
+    }
+
+    return getBaseCountriesByContinent(continent);
+  }
+
+  if (region) {
+    if (languageResult.length) {
+      return languageResult.filter((item) => item.region === region);
+    }
+
+    return getBaseCountriesByRegion(region);
+  }
+
+  return languageResult;
+};
+
 export const getCountryById = async (id: string): Promise<FullCountry> => {
   const response = await fetch(API_URL_COUNTRY + id);
   const data: FullCountry[] = await response.json();
