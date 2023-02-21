@@ -57,7 +57,7 @@ export const getRegions = async (region: string) => {
   return regions;
 };
 
-export const getBaseCountriesByContinent = async (region: string) => {
+const getBaseCountriesByContinent = async (region: string) => {
   const url =
     API_URL_REGION +
     region +
@@ -67,7 +67,7 @@ export const getBaseCountriesByContinent = async (region: string) => {
   return mapBaseCountries(data);
 };
 
-export const getBaseCountriesByRegion = async (subregion: string) => {
+const getBaseCountriesByRegion = async (subregion: string) => {
   const url =
     API_URL_SUB_REGION +
     subregion +
@@ -77,7 +77,7 @@ export const getBaseCountriesByRegion = async (subregion: string) => {
   return mapBaseCountries(data);
 };
 
-export const getBaseCountriesByLanguage = async (language: string) => {
+const getBaseCountriesByLanguage = async (language: string) => {
   const url =
     API_URL_LANG +
     language +
@@ -88,7 +88,6 @@ export const getBaseCountriesByLanguage = async (language: string) => {
 };
 
 const mapBaseCountries = (data: BasicResponseCountry[]) => {
-  if (!Array.isArray(data)) return [];
   const finalData: BaseCountry[] = data.map((item) => ({
     id: item.cca2,
     name: item.name.common,

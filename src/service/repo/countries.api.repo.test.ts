@@ -1,13 +1,11 @@
 import { BaseCountry } from '../../models/country';
 import {
-  getBaseCountriesByContinent,
-  getBaseCountriesByRegion,
   getLanguages,
-  getBaseCountriesByLanguage,
   getContinents,
   getRegions,
   getCountryById,
   queryCountry,
+  searchCountries,
 } from './countries.api.repo';
 
 describe('Given getLanguages function', () => {
@@ -82,10 +80,11 @@ describe('Given getRegions function', () => {
   });
 });
 
-describe('Given getBaseCountriesBy... functions', () => {
-  const mockContinent = '';
-  const mockRegion = '';
-  const mockLanguage = '';
+describe(`Given searchCountries function,
+    that use getBaseCountriesBy... functions`, () => {
+  const mockContinent = 'test continent';
+  const mockRegion = 'test region';
+  const mockLanguage = 'test language';
   const mockCountry = {
     cca2: '',
     name: { common: '' },
@@ -106,16 +105,60 @@ describe('Given getBaseCountriesBy... functions', () => {
     });
   });
 
-  describe('When getBaseCountriesByLanguage is called without a language', () => {
-    let r: BaseCountry[];
-    beforeEach(() => {
-      global.fetch = jest.fn().mockResolvedValue({
-        json: jest.fn().mockResolvedValue({ status: 'Error' }),
-      });
+  describe('When in is called without arguments', () => {
+    test('Then it should return []', async () => {
+      const result = await searchCountries('', '', '');
+      expect(result).toEqual([]);
     });
+  });
+
+  describe('When is called only with a language', () => {
+    let r: BaseCountry[];
     beforeEach(
       // eslint-disable-next-line no-return-assign
-      async () => (r = await getBaseCountriesByLanguage(''))
+      async () => (r = await searchCountries(mockLanguage, '', ''))
+    );
+    test('Then fetch should be called', () => {
+      expect(global.fetch).toHaveBeenCalled();
+    });
+    test('Then result should be []', () => {
+      expect(r).toEqual(mockFinalCountries);
+    });
+  });
+
+  describe('When it is called with language, continent and NO region', () => {
+    let r: BaseCountry[];
+    beforeEach(
+      // eslint-disable-next-line no-return-assign
+      async () => (r = await searchCountries(mockLanguage, mockContinent, ''))
+    );
+    test('Then fetch should be called', () => {
+      expect(global.fetch).toHaveBeenCalled();
+    });
+    test('Then result should be []', () => {
+      expect(r).toEqual([]);
+    });
+  });
+  describe('When it is called with continent and NO region and NO language, ', () => {
+    let r: BaseCountry[];
+    beforeEach(
+      // eslint-disable-next-line no-return-assign
+      async () => (r = await searchCountries('', mockContinent, ''))
+    );
+    test('Then fetch should be called', () => {
+      expect(global.fetch).toHaveBeenCalled();
+    });
+    test('Then result should be []', () => {
+      expect(r).toEqual(mockFinalCountries);
+    });
+  });
+
+  describe('When it is called with language, continent and region', () => {
+    let r: BaseCountry[];
+    beforeEach(
+      // eslint-disable-next-line no-return-assign
+      async () =>
+        (r = await searchCountries(mockLanguage, mockContinent, mockRegion))
     );
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
@@ -125,38 +168,11 @@ describe('Given getBaseCountriesBy... functions', () => {
     });
   });
 
-  describe('When getBaseCountriesByLanguage is called with a language', () => {
+  describe('When it is called with a continent and region and  NO language', () => {
     let r: BaseCountry[];
     beforeEach(
       // eslint-disable-next-line no-return-assign
-      async () => (r = await getBaseCountriesByLanguage(mockLanguage))
-    );
-    test('Then fetch should be called', () => {
-      expect(global.fetch).toHaveBeenCalled();
-    });
-    test('Then result should be []', () => {
-      expect(r).toEqual(mockFinalCountries);
-    });
-  });
-  describe('When getBaseCountriesByContinent is called with a continent and region', () => {
-    let r: BaseCountry[];
-    beforeEach(
-      // eslint-disable-next-line no-return-assign
-      async () => (r = await getBaseCountriesByContinent(mockContinent))
-    );
-    test('Then fetch should be called', () => {
-      expect(global.fetch).toHaveBeenCalled();
-    });
-    test('Then result should be []', () => {
-      expect(r).toEqual(mockFinalCountries);
-    });
-  });
-
-  describe('When getBaseCountriesByRegion is called with a continent and region', () => {
-    let r: BaseCountry[];
-    beforeEach(
-      // eslint-disable-next-line no-return-assign
-      async () => (r = await getBaseCountriesByRegion(mockRegion))
+      async () => (r = await searchCountries('', mockContinent, mockRegion))
     );
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
@@ -179,7 +195,7 @@ describe('Given getCountryById', () => {
       json: jest.fn().mockResolvedValue([mockCountry]),
     });
   });
-  describe('When it is callled with an id', () => {
+  describe('When it is called with an id', () => {
     const mockID = 'AA';
     test('Then it should return the country', async () => {
       const r = await getCountryById(mockID);
