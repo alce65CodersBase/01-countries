@@ -33,14 +33,7 @@ jest.mock('../others/others');
 
 jest.mock('../../../service/repo/countries.api.repo');
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: Infinity,
-      cacheTime: Infinity,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 const validRender = async () => {
   await act(async () => {
