@@ -6,6 +6,7 @@ import {
   getCountryById,
   queryCountry,
   searchCountries,
+  queryContinents,
 } from './countries.api.repo';
 
 describe('Given getLanguages function', () => {
@@ -235,6 +236,30 @@ describe('Given queryCountry', () => {
     });
     test('Then it should return the country', async () => {
       expect(() => queryCountry(mockQueryId)).rejects.toThrow();
+    });
+  });
+});
+
+describe('Given queryContinents function', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue([
+        {
+          region: 'Europe',
+        },
+      ]),
+    });
+  });
+
+  describe('When it is called', () => {
+    let r: string[];
+    // eslint-disable-next-line no-return-assign
+    beforeEach(async () => (r = await queryContinents({ queryKey: [''] })));
+    test('Then fetch should be called', () => {
+      expect(global.fetch).toHaveBeenCalled();
+    });
+    test(`Then result should be ['Europe']`, () => {
+      expect(r).toEqual(['Europe']);
     });
   });
 });

@@ -148,3 +148,15 @@ export const queryCountry = async ({
 
   return response.json();
 };
+
+export const queryContinents = async ({
+  // eslint-disable-next-line no-unused-vars
+  queryKey,
+}: {
+  queryKey: string[];
+}): Promise<string[]> => {
+  const response = await fetch(API_URL_ALL + '?fields=region');
+  const data: { region: string }[] = await response.json();
+  const continents = [...new Set(data.map((item) => item.region))];
+  return continents;
+};
