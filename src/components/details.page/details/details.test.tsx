@@ -38,7 +38,7 @@ jest.mock('../translations/translations');
 jest.mock('../others/others');
 
 jest.mock('react-router-dom', () => ({
-  ...(jest.requireActual('react-router-dom') as any),
+  ...jest.requireActual('react-router-dom'),
   Navigate: jest.fn(),
 }));
 
