@@ -1,10 +1,10 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { getLanguages } from '../../service/repo/countries.api.repo';
+import { getLanguages } from '../../../service/repo/countries.api.repo';
 import { LanguageInput } from './language.input';
 
-jest.mock('../../service/repo/countries.api.repo');
+jest.mock('../../../service/repo/countries.api.repo');
 
 describe('Given the component LanguageInput', () => {
   let elements: HTMLElement[];

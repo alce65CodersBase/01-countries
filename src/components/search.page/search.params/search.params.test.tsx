@@ -2,17 +2,17 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { SearchParams } from './search.params';
+import { searchCountries } from '../../../service/repo/countries.api.repo';
+import { useContinentsList } from '../../../hooks/use.continents.list';
+import { useRegionLists } from '../../../hooks/use.regions.list';
 import { ListCountries } from '../list.countries/list.countries';
-import { searchCountries } from '../../service/repo/countries.api.repo';
-import { useContinentsList } from '../../hooks/use.continents.list';
-import { useRegionLists } from '../../hooks/use.regions.list';
 import { LanguageInput } from '../language.input/language.input';
 
-jest.mock('../../service/repo/countries.api.repo');
+jest.mock('../../../service/repo/countries.api.repo');
 jest.mock('../basic.card/basic.card');
 jest.mock('../list.countries/list.countries');
-jest.mock('../../hooks/use.continents.list');
-jest.mock('../../hooks/use.regions.list');
+jest.mock('../../../hooks/use.continents.list');
+jest.mock('../../../hooks/use.regions.list');
 jest.mock('../language.input/language.input');
 
 (useContinentsList as jest.Mock).mockReturnValue({

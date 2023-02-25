@@ -2,7 +2,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BasicCard } from './basic.card';
-import { BaseCountry } from '../../models/country';
+import { BaseCountry } from '../../../models/country';
 
 const mockCountry: BaseCountry = {
   id: 'cu',

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BaseCountry } from '../../models/country';
+import { BaseCountry } from '../../../models/country';
 import { card, countryId } from './basic.card.module.scss';
 
 type BasicCardProps = {

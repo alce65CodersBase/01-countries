@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ListCountries } from './list.countries';
 import { BasicCard } from '../basic.card/basic.card';
-import { BaseCountry } from '../../models/country';
+import { BaseCountry } from '../../../models/country';
 
 jest.mock('../basic.card/basic.card');
 describe('Given ListCountries component rendered', () => {

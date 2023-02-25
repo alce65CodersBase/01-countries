@@ -1,4 +1,4 @@
-import { BaseCountry } from '../../models/country';
+import { BaseCountry } from '../../../models/country';
 import { BasicCard } from '../basic.card/basic.card';
 import { countriesList, noCountries } from './list.countries.module.scss';
 

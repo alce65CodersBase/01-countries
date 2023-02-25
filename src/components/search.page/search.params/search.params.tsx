@@ -1,11 +1,11 @@
 import { SyntheticEvent, useState } from 'react';
 import { searchParams, formGroup, results } from './search.params.module.scss';
-import { searchCountries } from '../../service/repo/countries.api.repo';
-import { BaseCountry } from '../../models/country';
+import { searchCountries } from '../../../service/repo/countries.api.repo';
+import { BaseCountry } from '../../../models/country';
 import { ListCountries } from '../list.countries/list.countries';
-import { useRegionLists } from '../../hooks/use.regions.list';
-import { useContinentsList } from '../../hooks/use.continents.list';
 import { LanguageInput } from '../language.input/language.input';
+import { useRegionLists } from '../../../hooks/use.regions.list';
+import { useContinentsList } from '../../../hooks/use.continents.list';
 
 export const SearchParams = () => {
   // Controlled form for get language, continent & region

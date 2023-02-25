@@ -1,5 +1,5 @@
 import { SyntheticEvent, useState, useEffect } from 'react';
-import { getLanguages } from '../../service/repo/countries.api.repo';
+import { getLanguages } from '../../../service/repo/countries.api.repo';
 
 type LanguageInputProps = {
   language: string;
