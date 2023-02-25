@@ -3,12 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 
 // Previous version without React-Query
 // const localCache: { [key: string]: any } = {};
-
 // export const useRegionLists = (continent: string) => {
 //   const [regions, setRegions] = useState<string[]>([]);
 //   // Tracking status is very useful for the test
 //   const [status, setStatus] = useState('unloaded');
-
 //   useEffect(() => {
 //     const loadRegions = async (continent: string) => {
 //       setRegions([]);
@@ -18,7 +16,6 @@ import { useQuery } from '@tanstack/react-query';
 //       setRegions(localCache[continent]);
 //       setStatus('loaded');
 //     };
-
 //     if (!continent) {
 //       setRegions([]);
 //     } else if (localCache[continent]) {
@@ -27,7 +24,6 @@ import { useQuery } from '@tanstack/react-query';
 //       loadRegions(continent);
 //     }
 //   }, [continent]);
-
 //   return {
 //     regions,
 //     status,

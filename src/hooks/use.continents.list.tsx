@@ -8,11 +8,9 @@ import { useQuery } from '@tanstack/react-query';
 //     const continents = await getContinents();
 //     setContinents(continents);
 //   };
-
 //   useEffect(() => {
 //     loadContinents();
 //   }, []);
-
 //   return {
 //     continents,
 //   };

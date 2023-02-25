@@ -50,8 +50,9 @@ export function Details() {
     );
   }
 
-  const countries = results.data;
-  if (countries === undefined) return <p>No country found</p>;
+  const countries = results.data ?? [];
+  if (!countries.length) return <p>No country found</p>;
+
   const country: FullCountry = countries[0];
   const title = country.name.common;
 

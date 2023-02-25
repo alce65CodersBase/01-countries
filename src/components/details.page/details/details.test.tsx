@@ -1,9 +1,9 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import * as reactQuery from '@tanstack/react-query';
+import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
 import { act, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Details } from './details';
-import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { queryCountry } from '../../../service/repo/countries.api.repo';
 import { Symbol } from '../symbol/symbol';
 import { Map } from '../map/map';
 import { Naming } from '../naming/naming';
@@ -17,6 +17,7 @@ import { PoliticStats } from '../politic.stats/politic.stats';
 import { Translations } from '../translations/translations';
 import { Others } from '../others/others';
 import { FullCountry } from '../../../models/country';
+import { queryCountry } from '../../../service/repo/countries.api.repo';
 
 jest.mock('../symbol/symbol');
 jest.mock('../map/map');
@@ -32,7 +33,7 @@ jest.mock('../translations/translations');
 jest.mock('../others/others');
 
 jest.mock('../../../service/repo/countries.api.repo');
-
+const spyUseQuery = jest.spyOn(reactQuery, 'useQuery');
 const queryClient = new QueryClient();
 
 const validRender = async () => {
@@ -61,18 +62,6 @@ describe('Given Details component rendered ', () => {
     test('Then it should not display any', () => {
       const element = screen.queryByRole('heading');
       expect(element).toBe(null);
-    });
-  });
-
-  describe(`When it is rendered with a valid param id
-              and the query return is undefined`, () => {
-    beforeEach(async () => {
-      (queryCountry as jest.Mock).mockResolvedValue(undefined);
-      await validRender();
-    });
-    test('It should no render anything', async () => {
-      const message = await screen.findByText('No country found');
-      expect(message).toBeInTheDocument();
     });
   });
 
@@ -107,6 +96,22 @@ describe('Given Details component rendered ', () => {
       expect(PoliticStats).toHaveBeenCalled();
       expect(Translations).toHaveBeenCalled();
       expect(Others).toHaveBeenCalled();
+    });
+  });
+
+  describe(`When it is rendered with a valid param id
+              and the query return is invalid`, () => {
+    beforeEach(async () => {
+      (queryCountry as jest.Mock).mockResolvedValue([]);
+      spyUseQuery.mockReturnValue({
+        data: null,
+        isLoading: false,
+      } as reactQuery.UseQueryResult);
+      await validRender();
+    });
+    test('It should no render anything', async () => {
+      const message = await screen.findByText('No country found');
+      expect(message).toBeInTheDocument();
     });
   });
 });
