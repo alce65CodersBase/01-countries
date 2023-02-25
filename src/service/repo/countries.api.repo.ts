@@ -154,12 +154,7 @@ export const queryContinents = async ({
   queryKey,
 }: {
   queryKey: string[];
-}): Promise<string[]> => {
-  const response = await fetch(API_URL_ALL + '?fields=region');
-  const data: { region: string }[] = await response.json();
-  const continents = [...new Set(data.map((item) => item.region))];
-  return continents;
-};
+}): Promise<string[]> => getContinents();
 
 export const queryRegions = async ({
   queryKey,
@@ -168,9 +163,5 @@ export const queryRegions = async ({
 }): Promise<string[]> => {
   const region = queryKey[1];
   if (!region) return [];
-  const url = API_URL_REGION + region + '?fields=subregion';
-  const response = await fetch(url);
-  const data: { subregion: string }[] = await response.json();
-  const regions = [...new Set(data.map((item) => item.subregion))];
-  return regions;
+  return getRegions(region);
 };
