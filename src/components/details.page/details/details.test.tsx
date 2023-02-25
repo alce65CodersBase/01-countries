@@ -76,15 +76,18 @@ describe('Given Details component rendered ', () => {
 
   describe('When it is rendered with a valid param id', () => {
     beforeEach(async () => {
-      (queryCountry as jest.Mock).mockResolvedValue([
-        {
-          name: {
-            common: 'Any name',
-          },
-          capitalInfo: {},
-          maps: {},
+      const country = {
+        name: {
+          common: 'Any name',
         },
-      ] as unknown as FullCountry[]);
+        capitalInfo: {},
+        maps: {},
+      } as FullCountry;
+      (queryCountry as jest.Mock).mockResolvedValue([country]);
+      spyUseQuery.mockReturnValue({
+        data: [country],
+        isLoading: false,
+      } as reactQuery.UseQueryResult);
       await validRender('cu');
     });
     test(`Then it should render the article
