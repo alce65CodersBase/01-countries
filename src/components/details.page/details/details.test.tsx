@@ -112,6 +112,23 @@ describe('Given Details component rendered ', () => {
   });
 
   describe(`When it is rendered with a valid param id
+    and is still loading`, () => {
+    beforeEach(async () => {
+      (queryCountry as jest.Mock).mockResolvedValue([]);
+      spyUseQuery.mockReturnValue({
+        data: [],
+        isLoading: true,
+      } as unknown as reactQuery.UseQueryResult);
+      await validRender('cu');
+    });
+    test(`Then it should render the loader`, async () => {
+      const element = screen.getByRole('heading');
+      expect(element).toBeInTheDocument();
+      expect(element).toHaveClass('loader');
+    });
+  });
+
+  describe(`When it is rendered with a valid param id
               and the query return is invalid`, () => {
     beforeEach(async () => {
       (queryCountry as jest.Mock).mockResolvedValue([]);
