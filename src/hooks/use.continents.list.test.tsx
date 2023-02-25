@@ -29,4 +29,27 @@ describe('Given useContinentsList hook', () => {
       expect(queryContinents).toHaveBeenCalled();
     });
   });
+
+  describe('When is used in a test component // BaD', () => {
+    beforeEach(() => {
+      (queryContinents as jest.Mock).mockRejectedValue(new Error());
+    });
+    beforeEach(async () => {
+      const TestComponent = () => {
+        useContinentsList();
+        return <></>;
+      };
+
+      await act(async () => {
+        render(
+          <QueryClientProvider client={queryClient}>
+            <TestComponent></TestComponent>
+          </QueryClientProvider>
+        );
+      });
+    });
+    test('Then it should call a repo function', () => {
+      expect(queryContinents).toHaveBeenCalled();
+    });
+  });
 });

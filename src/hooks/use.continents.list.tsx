@@ -18,16 +18,14 @@ import { useQuery } from '@tanstack/react-query';
 //   };
 // };
 
-// eslint-disable-next-line no-unused-vars
 export const useContinentsList = () => {
-  const results = useQuery(['continent'], queryContinents);
+  const results = useQuery(['continents'], queryContinents);
 
   if (results.isLoading) {
     return { continents: [] };
   }
 
-  const continents = results.data === undefined ? [] : results.data;
   return {
-    continents,
+    continents: results.data ?? [],
   };
 };
