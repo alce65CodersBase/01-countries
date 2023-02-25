@@ -1,8 +1,26 @@
 .country-card {
-  h2 {
-    display: flex;
-    justify-content: space-between;
+  header {
+    h2 {
+      display: flex;
+      justify-content: space-between;
+
+      .buttons {
+        display: flex;
+        gap: 1rem;
+
+        .button {
+          background-color: none;
+          border: none;
+
+          a {
+            text-decoration: none;
+            color: inherit;
+          }
+        }
+      }
+    }
   }
+
   article {
     display: grid;
     // grid-auto-rows: 8rem;

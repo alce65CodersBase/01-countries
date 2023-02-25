@@ -6,7 +6,7 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Details } from './details';
 import { Symbol } from '../symbol/symbol';
@@ -23,6 +23,7 @@ import { Translations } from '../translations/translations';
 import { Others } from '../others/others';
 import { FullCountry } from '../../../models/country';
 import { queryCountry } from '../../../service/repo/countries.api.repo';
+import { GoToModal } from '../goto.modal/goto.modal';
 
 jest.mock('../symbol/symbol');
 jest.mock('../map/map');
@@ -36,6 +37,7 @@ jest.mock('../geo.stats/geo.stats');
 jest.mock('../politic.stats/politic.stats');
 jest.mock('../translations/translations');
 jest.mock('../others/others');
+jest.mock('../goto.modal/goto.modal');
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -108,6 +110,13 @@ describe('Given Details component rendered ', () => {
       expect(PoliticStats).toHaveBeenCalled();
       expect(Translations).toHaveBeenCalled();
       expect(Others).toHaveBeenCalled();
+    });
+
+    test('Then user should click on the GoTo button', () => {
+      const elements = screen.getAllByRole('button');
+      expect(elements[1]).toBeInTheDocument();
+      fireEvent.click(elements[1]);
+      expect(GoToModal).toHaveBeenCalled();
     });
   });
 
