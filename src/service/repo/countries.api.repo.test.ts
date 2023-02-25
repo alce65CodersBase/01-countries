@@ -7,6 +7,7 @@ import {
   queryCountry,
   searchCountries,
   queryContinents,
+  queryRegions,
 } from './countries.api.repo';
 
 describe('Given getLanguages function', () => {
@@ -25,8 +26,9 @@ describe('Given getLanguages function', () => {
 
   describe('When it is called', () => {
     let r: string[];
-    // eslint-disable-next-line no-return-assign
-    beforeEach(async () => (r = await getLanguages()));
+    beforeEach(async () => {
+      r = await getLanguages();
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
@@ -49,8 +51,9 @@ describe('Given getContinents function', () => {
 
   describe('When it is called', () => {
     let r: string[];
-    // eslint-disable-next-line no-return-assign
-    beforeEach(async () => (r = await getContinents()));
+    beforeEach(async () => {
+      r = await getContinents();
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
@@ -70,8 +73,9 @@ describe('Given getRegions function', () => {
   const mockContinent = '';
   let r: string[];
   describe('When it is called with a continent', () => {
-    // eslint-disable-next-line no-return-assign
-    beforeEach(async () => (r = await getRegions(mockContinent)));
+    beforeEach(async () => {
+      r = await getRegions(mockContinent);
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
@@ -115,10 +119,9 @@ describe(`Given searchCountries function,
 
   describe('When is called only with a language', () => {
     let r: BaseCountry[];
-    beforeEach(
-      // eslint-disable-next-line no-return-assign
-      async () => (r = await searchCountries(mockLanguage, '', ''))
-    );
+    beforeEach(async () => {
+      r = await searchCountries(mockLanguage, '', '');
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
@@ -129,10 +132,9 @@ describe(`Given searchCountries function,
 
   describe('When it is called with language, continent and NO region', () => {
     let r: BaseCountry[];
-    beforeEach(
-      // eslint-disable-next-line no-return-assign
-      async () => (r = await searchCountries(mockLanguage, mockContinent, ''))
-    );
+    beforeEach(async () => {
+      r = await searchCountries(mockLanguage, mockContinent, '');
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
@@ -142,10 +144,9 @@ describe(`Given searchCountries function,
   });
   describe('When it is called with continent and NO region and NO language, ', () => {
     let r: BaseCountry[];
-    beforeEach(
-      // eslint-disable-next-line no-return-assign
-      async () => (r = await searchCountries('', mockContinent, ''))
-    );
+    beforeEach(async () => {
+      r = await searchCountries('', mockContinent, '');
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
@@ -156,11 +157,9 @@ describe(`Given searchCountries function,
 
   describe('When it is called with language, continent and region', () => {
     let r: BaseCountry[];
-    beforeEach(
-      // eslint-disable-next-line no-return-assign
-      async () =>
-        (r = await searchCountries(mockLanguage, mockContinent, mockRegion))
-    );
+    beforeEach(async () => {
+      r = await searchCountries(mockLanguage, mockContinent, mockRegion);
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
@@ -171,10 +170,9 @@ describe(`Given searchCountries function,
 
   describe('When it is called with a continent and region and  NO language', () => {
     let r: BaseCountry[];
-    beforeEach(
-      // eslint-disable-next-line no-return-assign
-      async () => (r = await searchCountries('', mockContinent, mockRegion))
-    );
+    beforeEach(async () => {
+      r = await searchCountries('', mockContinent, mockRegion);
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
@@ -253,13 +251,49 @@ describe('Given queryContinents function', () => {
 
   describe('When it is called', () => {
     let r: string[];
-    // eslint-disable-next-line no-return-assign
-    beforeEach(async () => (r = await queryContinents({ queryKey: [''] })));
+    beforeEach(async () => {
+      r = await queryContinents({ queryKey: [''] });
+    });
     test('Then fetch should be called', () => {
       expect(global.fetch).toHaveBeenCalled();
     });
     test(`Then result should be ['Europe']`, () => {
       expect(r).toEqual(['Europe']);
+    });
+  });
+});
+
+describe('Given queryRegions function', () => {
+  const mockContinent = 'Continent';
+  let r: string[];
+  describe('When it is called with a continent', () => {
+    beforeEach(() => {
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue([{ subregion: 'South-Europe' }]),
+      });
+    });
+
+    beforeEach(async () => {
+      r = await queryRegions({ queryKey: ['', mockContinent] });
+    });
+    test('Then fetch should be called', () => {
+      expect(global.fetch).toHaveBeenCalled();
+    });
+    test('Then result should be region []', () => {
+      expect(r).toEqual(['South-Europe']);
+    });
+  });
+  describe('When it is called without a continent', () => {
+    beforeEach(() => {
+      global.fetch = jest.fn().mockResolvedValue({
+        json: jest.fn().mockResolvedValue([]),
+      });
+    });
+    beforeEach(async () => {
+      r = await queryRegions({ queryKey: ['', ''] });
+    });
+    test('Then result should be region []', () => {
+      expect(r).toEqual([]);
     });
   });
 });
