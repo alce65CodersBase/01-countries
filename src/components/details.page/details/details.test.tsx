@@ -1,6 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as reactQuery from '@tanstack/react-query';
-import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
+import {
+  Route,
+  MemoryRouter as Router,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
 import { act, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Details } from './details';
@@ -32,17 +37,24 @@ jest.mock('../politic.stats/politic.stats');
 jest.mock('../translations/translations');
 jest.mock('../others/others');
 
+jest.mock('react-router-dom', () => ({
+  ...(jest.requireActual('react-router-dom') as any),
+  Navigate: jest.fn(),
+}));
+
 jest.mock('../../../service/repo/countries.api.repo');
 const spyUseQuery = jest.spyOn(reactQuery, 'useQuery');
 const queryClient = new QueryClient();
 
-const validRender = async () => {
+const validRender = async (id?: string) => {
+  const entries = [id ? `/details/${id}` : '/details'];
   await act(async () => {
     render(
-      <Router initialEntries={['/details/cu']} initialIndex={0}>
+      <Router initialEntries={entries} initialIndex={0}>
         <QueryClientProvider client={queryClient}>
           <Routes>
             <Route path="/details/:id" element={<Details></Details>}></Route>
+            <Route path="/details" element={<Details></Details>}></Route>
           </Routes>
         </QueryClientProvider>
       </Router>
@@ -53,15 +65,12 @@ const validRender = async () => {
 describe('Given Details component rendered ', () => {
   describe('When it is rendered without a param id', () => {
     beforeEach(() => {
-      render(
-        <Router>
-          <Details></Details>
-        </Router>
-      );
+      validRender();
     });
     test('Then it should not display any', () => {
       const element = screen.queryByRole('heading');
       expect(element).toBe(null);
+      expect(Navigate).toHaveBeenCalled();
     });
   });
 
@@ -76,7 +85,7 @@ describe('Given Details component rendered ', () => {
           maps: {},
         },
       ] as unknown as FullCountry[]);
-      await validRender();
+      await validRender('cu');
     });
     test(`Then it should render the article
             and call all the included components`, async () => {
@@ -107,7 +116,7 @@ describe('Given Details component rendered ', () => {
         data: null,
         isLoading: false,
       } as reactQuery.UseQueryResult);
-      await validRender();
+      await validRender('cu');
     });
     test('It should no render anything', async () => {
       const message = await screen.findByText('No country found');

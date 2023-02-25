@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { FullCountry } from '../../../models/country';
 import { queryCountry } from '../../../service/repo/countries.api.repo';
@@ -18,12 +18,8 @@ import { Others } from '../others/others';
 import { countryCard, countryId, map } from './details.module.scss';
 
 export function Details() {
-  const navigate = useNavigate();
   const { id } = useParams();
-  if (!id) {
-    navigate('/', { replace: true });
-    return <></>;
-  }
+  if (!id) return <Navigate to="/" replace={true}></Navigate>;
 
   // NO useQUERY
   // const [country, setCountry] = useState<FullCountry | null>(null);

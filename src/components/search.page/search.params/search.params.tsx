@@ -12,8 +12,8 @@ export const SearchParams = () => {
   const [language, setLanguage] = useState('');
   const [continent, setContinent] = useState('');
   const [region, setRegion] = useState('');
-  const { continents } = useContinentsList();
 
+  const { continents } = useContinentsList();
   const { regions, status } = useRegionLists(continent);
   const [countries, setCountries] = useState<BaseCountry[]>([]);
 

@@ -25,7 +25,9 @@ jest.mock('../language.input/language.input');
 
 (LanguageInput as jest.Mock).mockImplementation(
   ({ language, handleLanguage }) => {
-    handleLanguage(language);
+    setTimeout(() => {
+      handleLanguage(language);
+    });
   }
 );
 
