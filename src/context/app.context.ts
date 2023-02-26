@@ -5,7 +5,7 @@ type countryState = {
 };
 export type CountryUseState = [countryState, React.Dispatch<countryState>];
 
-const initialCountryUseState: CountryUseState = [
+export const initialCountryUseState: CountryUseState = [
   { country: '' },
   (_value: countryState) => {},
 ];
