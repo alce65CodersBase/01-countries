@@ -1,13 +1,21 @@
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Modal } from '../../modal/modal';
+import { AppContext } from '../../../context/app.context';
 
 type GoToModalProps = {
   country: string;
-  handleClick: () => void;
+  handleClose: () => void;
 };
-export function GoToModal({ country, handleClick }: GoToModalProps) {
+export function GoToModal({ country, handleClose }: GoToModalProps) {
+  const [state, setState] = useContext(AppContext);
+  const navigate = useNavigate();
   const title = `Go to ${country}`;
   const handleGo = () => {
     console.log(title);
+    setState({ ...state, country });
+    handleClose();
+    navigate('/visit');
   };
 
   return (
@@ -16,7 +24,7 @@ export function GoToModal({ country, handleClick }: GoToModalProps) {
         <h1>{title}</h1>
         <div className="buttons">
           <button onClick={handleGo}>Go</button>
-          <button onClick={handleClick}>Cancel</button>
+          <button onClick={handleClose}>Cancel</button>
         </div>
       </div>
     </Modal>

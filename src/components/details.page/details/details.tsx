@@ -72,7 +72,7 @@ export function Details() {
       {showModal && (
         <GoToModal
           country={countryName}
-          handleClick={handleClickTravel}
+          handleClose={handleClickTravel}
         ></GoToModal>
       )}
       <header>
