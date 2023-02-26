@@ -6,7 +6,11 @@ type AppContextProviderProps = {
 };
 
 export function AppContextProvider({ children }: AppContextProviderProps) {
-  const stateHook: CountryUseState = useState({ country: '' });
+  const stateHook: CountryUseState = useState({
+    country: '',
+    region: '',
+    continent: '',
+  });
 
   return (
     <AppContext.Provider value={stateHook}>{children}</AppContext.Provider>

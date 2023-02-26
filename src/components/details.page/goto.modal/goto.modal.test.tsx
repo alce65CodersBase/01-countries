@@ -15,11 +15,16 @@ describe('Given GoToModal component rendered', () => {
   let elements: HTMLElement[];
   let context: CountryUseState;
   beforeEach(() => {
-    context = [{ country: 'any' }, jest.fn()];
+    context = [{ country: 'any', region: 'any', continent: 'any' }, jest.fn()];
     render(
       <AppContext.Provider value={context}>
         <Router>
-          <GoToModal country="any" handleClose={handleClose}></GoToModal>
+          <GoToModal
+            country="any"
+            region="any"
+            continent="any"
+            handleClose={handleClose}
+          ></GoToModal>
         </Router>
       </AppContext.Provider>
     );

@@ -5,15 +5,22 @@ import { AppContext } from '../../../context/app.context';
 
 type GoToModalProps = {
   country: string;
+  region: string;
+  continent: string;
   handleClose: () => void;
 };
-export function GoToModal({ country, handleClose }: GoToModalProps) {
+export function GoToModal({
+  country,
+  region,
+  continent,
+  handleClose,
+}: GoToModalProps) {
   const [state, setState] = useContext(AppContext);
   const navigate = useNavigate();
   const title = `Go to ${country}`;
   const handleGo = () => {
     console.log(title);
-    setState({ ...state, country });
+    setState({ ...state, country, region, continent });
     handleClose();
     navigate('/visit');
   };

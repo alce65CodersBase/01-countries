@@ -13,7 +13,7 @@ export const getPhotos = async (
   const finalUrl =
     url +
     query +
-    topic +
+    `"${topic}"` +
     perPages +
     pageNum +
     page +

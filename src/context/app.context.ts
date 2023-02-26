@@ -2,11 +2,13 @@ import React, { createContext } from 'react';
 
 type countryState = {
   country: string;
+  region: string;
+  continent: string;
 };
 export type CountryUseState = [countryState, React.Dispatch<countryState>];
 
 export const initialCountryUseState: CountryUseState = [
-  { country: '' },
+  { country: '', region: '', continent: '' },
   (_value: countryState) => {},
 ];
 

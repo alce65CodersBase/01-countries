@@ -72,6 +72,8 @@ export function Details() {
       {showModal && (
         <GoToModal
           country={countryName}
+          region={country.subregion}
+          continent={country.region}
           handleClose={handleClickTravel}
         ></GoToModal>
       )}
