@@ -26,7 +26,7 @@ export function Visit() {
         {photos.map((item) => (
           <li key={item.id}>
             <img
-              src={item.url.thumb}
+              src={item.urls.thumb}
               alt={item.altDescription}
               title={item.description}
             />

@@ -30,7 +30,7 @@ export const getPhotos = async (
     color: item.color,
     description: item.description,
     altDescription: item.alt_description,
-    url: item.urls,
+    urls: item.urls,
   }));
   return finalData;
 };

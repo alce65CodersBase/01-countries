@@ -5,7 +5,7 @@ export type BasePhoto = {
   color: string;
   description: string;
   altDescription: string;
-  url: Urls;
+  urls: Urls;
 };
 
 export interface FullPhoto {
