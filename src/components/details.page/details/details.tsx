@@ -29,7 +29,9 @@ import { GoToModal } from '../goto.modal/goto.modal';
 
 export function Details() {
   const { id } = useParams();
-  if (!id) return <Navigate to="/" replace={true}></Navigate>;
+  if (!id) {
+    return <Navigate to="/" replace={true}></Navigate>;
+  }
 
   // NO useQUERY
   // const [country, setCountry] = useState<FullCountry | null>(null);
