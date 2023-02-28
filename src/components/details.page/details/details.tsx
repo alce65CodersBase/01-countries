@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+
 import { FullCountry } from '../../../models/country';
 import { queryCountry } from '../../../service/repo/countries.api.repo';
 import { Symbol } from '../symbol/symbol';
@@ -15,9 +17,18 @@ import { GeoStats } from '../geo.stats/geo.stats';
 import { PoliticStats } from '../politic.stats/politic.stats';
 import { Translations } from '../translations/translations';
 import { Others } from '../others/others';
-import { countryCard, countryId, map } from './details.module.scss';
+import {
+  buttons,
+  button,
+  countryCard,
+  countryId,
+  map,
+} from './details.module.scss';
+
+import { GoToModal } from '../goto.modal/goto.modal';
 
 export function Details() {
+  const [showModal, setShowModal] = useState(false);
   const { id } = useParams();
   if (!id) return <Navigate to="/" replace={true}></Navigate>;
 
@@ -50,18 +61,35 @@ export function Details() {
   if (!countries.length) return <p>No country found</p>;
 
   const country: FullCountry = countries[0];
-  const title = country.name.common;
+  const countryName = country.name.common;
 
-  console.log({ country });
+  const handleClickTravel = () => {
+    setShowModal(!showModal);
+  };
 
   return (
     <section className={countryCard}>
+      {showModal && (
+        <GoToModal
+          country={countryName}
+          region={country.subregion}
+          continent={country.region}
+          handleClose={handleClickTravel}
+        ></GoToModal>
+      )}
       <header>
         <h2>
           <span>
-            {title} <span className={countryId}>[{id}]</span>
+            {countryName} <span className={countryId}>[{id}]</span>
           </span>
-          <Link to="/">Back</Link>
+          <span className={buttons}>
+            <button className={button}>
+              <Link to="/">Back</Link>
+            </button>
+            <button className={button} onClick={handleClickTravel}>
+              Go to Country
+            </button>
+          </span>
         </h2>
       </header>
       <article className="country">
