@@ -8,8 +8,9 @@ type CarrouselProps = {
 export function Carousel({ images }: CarrouselProps) {
   const [active, setActive] = useState(0);
 
-  const handleIndexClick = (event: SyntheticEvent) => {
-    const imgElement = event.target as HTMLImageElement;
+  const handleIndexClick = (event: SyntheticEvent<HTMLImageElement>) => {
+    if (!(event.target instanceof HTMLImageElement)) return;
+    const imgElement = event.target;
     setActive(Number(imgElement.dataset.index ?? 0));
   };
 

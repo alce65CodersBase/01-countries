@@ -149,6 +149,20 @@ export const queryCountry = async ({
   return response.json();
 };
 
+// Alternative typing
+// export const queryCountry: QueryFunction<
+//   FullCountry[],
+//   ['details', string]
+// > = async ({ queryKey }) => {
+//   const id = queryKey[1];
+//   const response = await fetch(API_URL_COUNTRY + id);
+//   if (!response.ok) {
+//     throw new Error(`details/${id} fetch not ok`);
+//   }
+
+//   return response.json();
+// };
+
 export const queryContinents = async ({
   // eslint-disable-next-line no-unused-vars
   queryKey,

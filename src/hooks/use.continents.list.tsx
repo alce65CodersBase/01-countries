@@ -1,5 +1,5 @@
 import { queryContinents } from '../service/repo/countries.api.repo';
-import { useQuery } from '@tanstack/react-query';
+import { QueryStatus, useQuery } from '@tanstack/react-query';
 
 // Previous version without React-Query
 // export const useContinentsList = () => {
@@ -25,5 +25,6 @@ export const useContinentsList = () => {
 
   return {
     continents: results.data ?? [],
-  };
+    status: results.status,
+  } as { continents: string[]; status: QueryStatus };
 };

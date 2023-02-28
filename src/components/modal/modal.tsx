@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 type ModalProps = {
-  children: globalThis.JSX.Element;
+  children: ReactElement;
 };
 export const Modal = ({ children }: ModalProps) => {
-  const modalRoot = document.querySelector('#modal') as HTMLDivElement;
+  const modalRoot = document.querySelector('#modal');
 
   let { current } = useRef<HTMLDivElement>(null);
   if (!current) {
@@ -14,11 +14,12 @@ export const Modal = ({ children }: ModalProps) => {
   }
 
   useEffect(() => {
+    if (!modalRoot || !current) return;
     // Load Modal in modalRoot
-    modalRoot.appendChild(current as HTMLDivElement);
+    modalRoot.appendChild(current);
     return () => {
       // UnLoad Modal from modalRoot
-      modalRoot.removeChild(current as HTMLDivElement);
+      if (current) modalRoot.removeChild(current);
     };
   }, []);
 

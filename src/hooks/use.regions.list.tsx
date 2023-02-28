@@ -1,5 +1,5 @@
 import { queryRegions } from '../service/repo/countries.api.repo';
-import { useQuery } from '@tanstack/react-query';
+import { QueryStatus, useQuery } from '@tanstack/react-query';
 
 // Previous version without React-Query
 // const localCache: { [key: string]: any } = {};
@@ -43,5 +43,5 @@ export const useRegionLists = (continent: string) => {
   return {
     regions: results.data ?? [],
     status: results.status,
-  };
+  } as { regions: string[]; status: QueryStatus };
 };
